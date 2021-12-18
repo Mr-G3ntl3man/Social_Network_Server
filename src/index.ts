@@ -9,13 +9,13 @@ require('dotenv').config()
 
 const PORT = process.env.PORT || process.env.SPARE_PORT
 
-const app = express()
+const index = express()
 
-app.use(cors())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
+index.use(cors())
+index.use(bodyParser.json())
+index.use(bodyParser.urlencoded({extended: true}))
 
-app.post("/refreshToken", async (req, res) => {
+index.post("/refreshToken", async (req, res) => {
    const refreshToken = req.body.refreshToken
 
    const spotifyApi = new SpotifyWebApi({
@@ -38,7 +38,7 @@ app.post("/refreshToken", async (req, res) => {
 
 })
 
-app.post("/loginSpotify", async (req, res) => {
+index.post("/loginSpotify", async (req, res) => {
    const code = req.body.code
 
    const spotifyApi = new SpotifyWebApi({
@@ -60,10 +60,10 @@ app.post("/loginSpotify", async (req, res) => {
    }
 })
 
-app.get("/lyrics", async (req, res) => {
+index.get("/lyrics", async (req, res) => {
    const lyrics = (await lyricsFinder(req.query.artist, req.query.track)) || "No Lyrics Found"
 
    res.json({lyrics})
 })
 
-app.listen(PORT)
+index.listen(PORT)
